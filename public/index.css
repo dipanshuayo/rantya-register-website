@@ -1,8 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
-.rantyaColorAccent{
-    background-color: brown;
+:root{
+    --colorAccent:#b50921;
+    --colorPrimary:#C3C3C3;
+}
+.homePage{
+    width:100vm;
+    height:100vh;
+}
+.colorPrimary{
+    background-color:var(--colorPrimary);
+}
+.colorAccent{
+    background-color:var(--colorAccent);
+}
+.centerHorizontal{
+    margin:0 auto;
+    background-position: center;
+    text-align: center;
 }
