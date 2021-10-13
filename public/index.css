@@ -6,7 +6,7 @@
     --colorPrimary:#C3C3C3;
 }
 .homePage{
-    width:100vm;
+    width:100vw;
     height:100vh;
 }
 .colorPrimary{
@@ -19,4 +19,9 @@
     margin:0 auto;
     background-position: center;
     text-align: center;
+}
+.studentsPage{
+    width:100%;
+    height:100vh;
+   
 }

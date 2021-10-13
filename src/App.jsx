@@ -6,9 +6,9 @@ import StudentsPages from './pages/StudentsPage';
 import DatesPage from './pages/DatesPage';
 import TakeAttendancePage from './pages/TakeAttendancePage';
 const App = () => {
-    const [showToolbar,toggleShowToolbar]=React.useState(false)
+    const [showToolbar,toggleShowToolbar]=React.useState(true)
     return (
-       <div>
+       <div className="colorPrimary">
            {showToolbar && <Toolbar/>}
           
            <Switch>
