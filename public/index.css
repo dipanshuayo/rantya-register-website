@@ -12,6 +12,9 @@
 .colorPrimary{
     background-color:var(--colorPrimary);
 }
+.innerColorAccent{
+    color: var(--colorAccent);
+}
 .colorAccent{
     background-color:var(--colorAccent);
 }
@@ -23,5 +26,10 @@
 .studentsPage{
     width:100%;
     height:100vh;
-   
+}
+.w-50{
+    width: 50%;
+}
+.margin-top{
+    margin-top: 50px;
 }
