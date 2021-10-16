@@ -1,4 +1,6 @@
 import React from 'react';
+import AddButton from '../components/AddButton';
+import DeleteButton from '../components/DeleteButton';
 import InfoModal from '../components/InfoModal';
 import ListView from '../components/ListView';
 const StudentsPages = () => {
@@ -12,11 +14,18 @@ const StudentsPages = () => {
         setBody("kslflsdlfs")
         setShowModal(true)
     }
-    const showInfoModal=()=>{
-        return <InfoModal title={title} body={body} showModal={showModal} setShowModal={setShowModal}/>
+    const onAddButtonClick=()=>{
+        console.log("add student")
+    }
+    const onDeleteButtonClick=()=>{
+        console.log("delete button")
     }
     return (<div className="studentsPage colorPrimary">
-        {showModal && showInfoModal()}
+        {showModal && <InfoModal title={title} body={body} showModal={showModal} setShowModal={setShowModal}/>}
+        <span >
+            <AddButton onClick={onAddButtonClick}/>
+            <DeleteButton onClick={onDeleteButtonClick}/>
+        </span>
         <ListView values={studentNames} onItemClicked={onItemClicked} />
     </div> );
 }
