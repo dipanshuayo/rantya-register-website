@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import StudentsPages from './pages/StudentsPage';
 import DatesPage from './pages/DatesPage';
 import TakeAttendancePage from './pages/TakeAttendancePage';
+import AdminPage from './pages/AdminPage';
 const App = () => {
     const [showToolbar,toggleShowToolbar]=React.useState(true)
     return (
@@ -16,6 +17,7 @@ const App = () => {
                <Route exact path="/students" component={StudentsPages}/>
                <Route exact path="/dates" component={DatesPage}/>
                <Route exact path="/take_attendance" component={TakeAttendancePage}/>
+               <Route exact path="/admin" component={AdminPage}/>
            </Switch>
         
     </div>
