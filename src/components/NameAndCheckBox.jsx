@@ -9,5 +9,4 @@ const NameAndCheckBox = ({name,isChecked,onCheckBoxClicked}) => {
         </span>
      );
 }
- 
 export default NameAndCheckBox
