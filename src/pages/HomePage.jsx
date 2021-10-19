@@ -6,6 +6,7 @@ import {getFirestore,doc,getDoc} from "firebase/firestore"
 import Constants from "../Constants"
 import Alert from '../components/Alert';
 import Progress from '../components/Progress';
+import Store from '../Store'
 
 const HomePage = ({toggleLoggedInBar}) => {
     const [passCode,changePassCode]=React.useState("")
@@ -27,16 +28,18 @@ const HomePage = ({toggleLoggedInBar}) => {
         console.log('classCodeDoc :>> ', classCodeDoc);
         console.log('classCodeDoc.data :>> ', classCodeDoc.data());
         if(validateLogin(classCodeDoc)){
+            const newClassId=classCodeDoc.data()[passCode]
             setClassId(
-                classCodeDoc.data()[passcode]
+                newClassId
             )
+            console.log("passcode class id",classCodeDoc.data()[passCode])
             console.log('classId :>> ', classId);
             console.log("submitted")
             toggleLoggedInBar(true)
             setProgress(false)
+            Store.classId=newClassId
+            console.log('Store :>> ', Store.classId);
             history.push("/students")
-           
-
         }
         else{
             alert("Wrong class code")

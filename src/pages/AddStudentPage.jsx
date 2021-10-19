@@ -5,6 +5,7 @@ import AddButton from "../components/AddButton";
 import ListView from "../components/ListView";
 import { getFirestore, setDoc, doc,collection } from "firebase/firestore";
 import Constants from "../Constants";
+import Store from '../Store'
 
 
 
@@ -16,6 +17,13 @@ const AddStudentPage = () => {
   const [body, setBody] = React.useState("");
   const [selectedName, changeSelectedName] = React.useState("");
   const db = getFirestore()
+  const attachLatestRoleNumber = () => {
+    let rollNumber = 1;
+    const newArr = studentNames.map((name) => {
+      return `${name}-${rollNumber++}`;
+    });
+    return newArr;
+  };
   const onAddButtonClicked = () => {
     const newStudentNames = [...studentNames];
     newStudentNames.push(studentName);
@@ -53,17 +61,11 @@ const AddStudentPage = () => {
       dates_absent: [],
     };
     const studentsCollectionRef = collection(db,`${Constants.CLASSES_COLLECTION_PATH}/${Store.classId}/${Constants.STUDENTS_COLLECTION_PATH}`)
-    attachLastestRoleNumber().forEach(async (id) =>  {
+    attachLatestRoleNumber().forEach(async (id) =>  {
       await setDoc(doc(db,studentsCollectionRef.path,id), dataToBeSent);
     });
   };
-  const attachLatestRoleNumber = () => {
-    let rollNumber = 1;
-    const newArr = studentNames.map((name) => {
-      return `${name}-${rollNumber++}`;
-    });
-    return newArr;
-  };
+ 
   const onRemoveStudentName = () => {
     changeStudentNames(
       [...studentNames].filter((name) => name !== selectedName)
