@@ -21,7 +21,7 @@ initializeApp(
 
 const App = () => {
     const [showToolbar,toggleShowToolbar]=React.useState(false)
-    const [loggedIn,toggleLoggedIn]=React.useState(false)
+    const [loggedIn,toggleLoggedIn]=React.useState(true)
     const showToolbarAndSetLoggedIn=(loggedInValue)=>{
         toggleShowToolbar(true)
         toggleLoggedIn(loggedInValue)

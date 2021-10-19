@@ -4,13 +4,25 @@ import logo from '../../public/ic_launcher.png'
 import LoginModal from '../components/LoginModal';
 import {getFirestore,doc,getDoc} from "firebase/firestore"
 import Constants from "../Constants"
+import Alert from '../components/Alert';
+import Progress from '../components/Progress';
+
 const HomePage = ({toggleLoggedInBar}) => {
     const [passCode,changePassCode]=React.useState("")
     const [classId,setClassId]=React.useState("")
+    const [showAlert, setShowAlert]=React.useState(false)
+    const [alertText,setAlertText]=React.useState("")
+    const [showProgress,setProgress]=React.useState(true)
     const history=useHistory()
     const db=getFirestore()
+    const displayAlert= text=>{
+        setAlertText(text)
+        setShowAlert(true)
+    }
     const handleOnSubmitPassCode= async ()=>{
+        console.log({db})
         const classCodeDoc= await getDoc(getClassCodeRef())
+        setProgress(true)
         console.log('passCode :>> ', passCode);
         console.log('classCodeDoc :>> ', classCodeDoc);
         console.log('classCodeDoc.data :>> ', classCodeDoc.data());
@@ -21,11 +33,14 @@ const HomePage = ({toggleLoggedInBar}) => {
             console.log('classId :>> ', classId);
             console.log("submitted")
             toggleLoggedInBar(true)
+            setProgress(false)
             history.push("/students")
+           
 
         }
         else{
-            alert("wrong passcode")
+            alert("Wrong class code")
+            setProgress(false)
         }
      
     }
@@ -51,12 +66,14 @@ const HomePage = ({toggleLoggedInBar}) => {
     <div className="homePage colorPrimary">
         <img src={logo} width="192px" height="192px" className="centerHorizontal"/>
         <LoginModal className="centerHorizontal flex mt-16" value={passCode} valueChangedHandler={changePassCode} onSubmit={handleOnSubmitPassCode}/>
+     
         <h2 className="font-semibold font-serif textColorAccent centerHorizontal">
             A PROJECT BY SET 2K21 FOR TEACHERS OF RANTYA HIGH SCHOOL.
         </h2>
         <h2 className=" font-semibold textColorAccent centerHorizontal">
             No Bad Vides.
         </h2>
+        <Progress showProgress={showProgress}/>
     </div>);
 }
  
