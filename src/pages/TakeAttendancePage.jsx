@@ -4,7 +4,7 @@ import Attendance from '../components/Attendance';
 import Constants from '../Constants';
 import Store from '../Store'
 
-import { getFirestore, setDoc, doc,collection,getDoc,updateDoc,arrayUnion } from "firebase/firestore";
+import { getFirestore, setDoc, doc,getDoc,updateDoc,arrayUnion } from "firebase/firestore";
 import { format } from 'date-fns';
 const TakeAttendancePage = () => {
     const db=getFirestore()
