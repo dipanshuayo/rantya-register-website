@@ -1,12 +1,12 @@
 import React from 'react';
 import ListItem from './ListItem';
-const ListView = ({values,onItemClicked}) => {
+const ListView = ({values,onItemClicked,onLongPress}) => {
     return ( <div>
         <ul>
         {
             values.map(value=>{
                 return(
-                    <ListItem value={value} onItemClicked={onItemClicked}/>
+                    <ListItem value={value} onItemClicked={onItemClicked} onLongPress={onLongPress}/>
                 )
             })
         }

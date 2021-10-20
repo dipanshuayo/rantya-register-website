@@ -3,7 +3,6 @@ import AccentButton from '../components/AccentButton';
 import Attendance from '../components/Attendance';
 import Constants from '../Constants';
 import Store from '../Store'
-
 import { getFirestore, setDoc, doc,getDoc,updateDoc,arrayUnion } from "firebase/firestore";
 import { format } from 'date-fns';
 const TakeAttendancePage = () => {

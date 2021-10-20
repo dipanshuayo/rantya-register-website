@@ -26,7 +26,7 @@ const InfoModal= ({title,body,showModal, setShowModal}) => {
                   </div>
                   {/*body*/}
                   <div className="relative p-6 flex-auto">
-                    <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                    <p className="my-4 text-blueGray-500 text-lg leading-relaxed whitespace-pre-line">
                         {body}
                     </p>
                   </div>

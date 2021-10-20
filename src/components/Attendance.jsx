@@ -15,7 +15,7 @@ const Attendance = ({studentsAttendance,changeStudentsAttendance}) => {
           {
               Array.from(studentsAttendance.keys()).map(name=>{
                   console.log(name,studentsAttendance.get(name))
-                  return (<NameAndCheckBox name={name} isChecked={studentsAttendance.get(name)} onCheckBoxClicked={onCheckBoxClicked}/>)
+                  return (<NameAndCheckBox key={name} name={name} isChecked={studentsAttendance.get(name)} onCheckBoxClicked={onCheckBoxClicked}/>)
               })
           }
       </div>
