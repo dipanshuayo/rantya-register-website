@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import AddButton from "../components/AddButton";
-import DeleteButton from "../components/DeleteButton";
 import InfoModal from "../components/InfoModal";
 import ListView from "../components/ListView";
 import {
@@ -17,36 +16,51 @@ import Constants from "../Constants";
 import Store from "../Store";
 import ActionModal from "../components/ActionModal";
 import AddModal from "../components/AddModal";
+import Alert from "../components/Alert";
+import { useHistory } from "react-router-dom";
 const StudentsPages = () => {
-  const [studentNames, changeStudentNames] = React.useState([
-    "kdf",
-    "kfsd",
-    "klsdfl",
-    "kjsldfd",
-    "lkfdsl",
-  ]);
+  const [studentNames, changeStudentNames] = React.useState([]);
   const [showModal, setShowModal] = React.useState(false);
   const [showActionModal, setShowActionModal] = React.useState(false);
   const [showAddModal, setShowAddModal] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
-  const [selectedName,setSelectedName] = React.useState("");
+  const [selectedName, setSelectedName] = React.useState("");
+  const [showAlert, setShowAlert]=React.useState("")
+  const [alertText,setAlertText]=React.useState("")
+  const history=useHistory()
   const db = getFirestore();
   const classDocRef = doc(db, Constants.CLASSES_COLLECTION_PATH, Store.classId);
   const getStudentNames = async () => {
     const snapShot = await getDoc(classDocRef);
     const classNames = snapShot.data().names;
-    changeStudentNames(classNames);
+    changeStudentNames(classNames)
+    
   };
   useEffect(() => {
-    getStudentNames();
+    getStudentNames()
+    // redirectToAddStudents()
+    
   }, []);
+  useEffect(()=>{
+    redirectToAddStudents()
+  },[studentNames])
   useEffect(() => {
     if (!showActionModal) {
       setTitle("");
       setBody("");
     }
   }, [showActionModal]);
+  const redirectToAddStudents=()=>{
+    if(studentNames===undefined){
+      console.log("lkdjfslj")
+      history.push("/add_student")
+    }
+  }
+  const makeAlert=(text)=>{
+    setAlertText(text)
+    setShowAlert(true)
+  }
   const getStudentAttendanceHistory = async (name) => {
     const studentRef = doc(
       db,
@@ -90,8 +104,8 @@ const StudentsPages = () => {
     setBody(
       `Are you sure you want to delete ${target.textContent} ,once deleted it can't be undo`
     );
-    setSelectedName(target.textContent)
-    console.log('selectedName :>> ', selectedName);
+    setSelectedName(target.textContent);
+    console.log("selectedName :>> ", selectedName);
     setShowActionModal(true);
   };
   const deleteFromNamesArray = () => {
@@ -100,7 +114,7 @@ const StudentsPages = () => {
     });
   };
   const deletStudentSubCollection = async () => {
-    console.log('selectedName :>> ', selectedName);
+    console.log("selectedName :>> ", selectedName);
     const studentDoc = doc(
       db,
       `${classDocRef.path}/${Constants.STUDENTS_COLLECTION_PATH}/${selectedName}`
@@ -126,39 +140,39 @@ const StudentsPages = () => {
       db,
       `${Constants.CLASSES_COLLECTION_PATH}/${Store.classId}/${Constants.STUDENTS_COLLECTION_PATH}/${name}`
     );
-    await setDoc(newStudentDocRef,dataToBeSent)
+    await setDoc(newStudentDocRef, dataToBeSent);
   };
   const addStudent = (name) => {
     const nameToBeSent = `${name}-${studentNames.length + 1}`;
-    const newArray=[...studentNames]
-    newArray.push(nameToBeSent)
-    changeStudentNames(
-        newArray
-    )
-    addStudentToArray(nameToBeSent).then(()=>{
-      addStudentToSubCollection(nameToBeSent)
-      setShowAddModal(false)
-      
-    }
-    );
+    const newArray = [...studentNames];
+    newArray.push(nameToBeSent);
+    changeStudentNames(newArray);
+    addStudentToArray(nameToBeSent).then(() => {
+      addStudentToSubCollection(nameToBeSent);
+      setShowAddModal(false);
+      makeAlert("Student added")
+    });
   };
-  const removeNameFromArray=()=>{
-      const newStudentNames=[...studentNames].filter(name=>name!==selectedName)
-      changeStudentNames(newStudentNames)
-  }
+  const removeNameFromArray = () => {
+    const newStudentNames = [...studentNames].filter(
+      (name) => name !== selectedName
+    );
+    changeStudentNames(newStudentNames);
+  };
   const onDeleteButtonClick = () => {
     console.log("delete button");
     deleteFromNamesArray().then(
-        deletStudentSubCollection().then(()=>{
-            removeNameFromArray()
-            setShowActionModal(false)
-        }
-        )
-        );
+      deletStudentSubCollection().then(() => {
+        removeNameFromArray();
+        setShowActionModal(false);
+        makeAlert("Student deleted")
+      })
+    );
   };
 
   return (
     <div className="studentsPage colorPrimary">
+      <Alert showAlert={showAlert} setShowAlert={setShowAlert} text={alertText} />
       {showModal && (
         <InfoModal
           title={title}
@@ -184,16 +198,18 @@ const StudentsPages = () => {
           addStudents={addStudent}
         />
       )}
+      
       <span>
         <AddButton onClick={onAddButtonClick} />
-        <DeleteButton onClick={onDeleteButtonClick} />
       </span>
+      {studentNames &&
       <ListView
         values={studentNames}
         onItemClicked={onItemClicked}
         onLongPress={onLongPress}
       />
-    </div>
+
+            }      </div>
   );
 };
 

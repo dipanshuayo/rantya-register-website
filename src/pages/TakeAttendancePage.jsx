@@ -5,11 +5,15 @@ import Constants from '../Constants';
 import Store from '../Store'
 import { getFirestore, setDoc, doc,getDoc,updateDoc,arrayUnion } from "firebase/firestore";
 import { format } from 'date-fns';
+import Alert from '../components/Alert';
+
 const TakeAttendancePage = () => {
     const db=getFirestore()
     const todayDate= format(new Date(),'dd-MM-yyyy')
     console.log('Store :>> ', Store.classId);
     const [studentsAttendance,changeStudentsAttendance]=React.useState(new Map())
+    const [showAlert, setShowAlert]=React.useState("")
+    const [alertText,setAlertText]=React.useState("")
     const classDocRef=doc(db,Constants.CLASSES_COLLECTION_PATH,Store.classId)
     const getStudentAttendance=async ()=>{
         const snapShot=await getDoc(classDocRef)
@@ -27,11 +31,16 @@ const TakeAttendancePage = () => {
         },
         []
     )
-    
+    const makeAlert=(text)=>{
+        setAlertText(text)
+        setShowAlert(true)
+      }
     const onSaveAttendanceClick= async ()=>{
         console.log("save attendance");
         sendSavedAttendance().then(
-            updateStudentSubCollection()
+            updateStudentSubCollection().then(
+                makeAlert("Attendance Saved")
+            )
         )
     }
     const sendSavedAttendance= async ()=>{
@@ -60,6 +69,8 @@ const TakeAttendancePage = () => {
         })
     }
     return ( <div className="h-screen w-full">
+         <Alert showAlert={showAlert} setShowAlert={setShowAlert} text={alertText} />
+         <h3 className="text-center font-bold">{`Attendance for ${Store.classId} term ${Store.term} date ${todayDate}`}</h3>
         <Attendance studentsAttendance={studentsAttendance} changeStudentsAttendance={changeStudentsAttendance}/>
        <AccentButton name="Save attendance" onClick={onSaveAttendanceClick}/>
    </div> );

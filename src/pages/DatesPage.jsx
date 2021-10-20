@@ -6,13 +6,16 @@ import { getFirestore, setDoc, doc,getDoc,updateDoc,arrayUnion ,arrayRemove} fro
 import Store from "../Store"
 import Constants from "../Constants"
 import { format } from 'date-fns';
+import Alert from '../components/Alert';
+
 
 const DatesPage = () => {
     const defaultDate=format(new Date(),'dd-MM-yyyy')
     const [dateShow,toggleDateShow]=React.useState(true)
     const [selectedDate, setSelectedDate] = React.useState(defaultDate);
     const [studentsAttendance,changeStudentsAttendance]=React.useState(new Map())
-
+    const [showAlert, setShowAlert]=React.useState("")
+    const [alertText,setAlertText]=React.useState("")
     const db=getFirestore()
     const classDocRef=doc(db,Constants.CLASSES_COLLECTION_PATH,Store.classId)
     const  makeOrderedStudentAttendance=(classNames,unOrderStudentAttendance)=>{
@@ -22,6 +25,10 @@ const DatesPage = () => {
         })
         changeStudentsAttendance(newStudentsAttendane)
     }
+    const makeAlert=(text)=>{
+        setAlertText(text)
+        setShowAlert(true)
+      }
     const  makeNewStudentAttendace=(classNames)=>{
         const newStudentsAttendane=new Map()
         classNames.forEach(name=>{
@@ -54,7 +61,9 @@ const DatesPage = () => {
     const onSaveChangesAttendance=()=>{
         console.log("save attendance");
         sendSavedAttendance().then(
-            updateStudentSubCollection()
+            updateStudentSubCollection().then(
+                makeAlert("Attendance changes saved")
+            )
         )
     }
     const sendSavedAttendance= async ()=>{
@@ -90,8 +99,10 @@ const DatesPage = () => {
     }
     return (<div className="h-screen w-full">
         <DatePicker dateShow={dateShow} toggleDateShow={toggleDateShow} setSeletedDate={setSelectedDate}/>
+        <Alert showAlert={showAlert} setShowAlert={setShowAlert} text={alertText} />
         {!dateShow &&
         <React.Fragment>
+            <h3 className="text-center font-bold">{`Attendance for ${Store.classId} term ${Store.term} date ${selectedDate}`}</h3>
              <Attendance studentsAttendance={studentsAttendance} changeStudentsAttendance={changeStudentsAttendance}/>
              <AccentButton name="Save changes to attendance" onClick={onSaveChangesAttendance}/>
         </React.Fragment>

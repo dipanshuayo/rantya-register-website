@@ -1,5 +1,5 @@
 class Store{
-    static classId="SS3A"
-    static term="first_term"
+    static classId=""
+    static term=""
 }
 export default Store;

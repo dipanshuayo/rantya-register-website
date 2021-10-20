@@ -4,22 +4,15 @@ import logo from '../../public/ic_launcher.png'
 import LoginModal from '../components/LoginModal';
 import {getFirestore,doc,getDoc} from "firebase/firestore"
 import Constants from "../Constants"
-import Alert from '../components/Alert';
 import Progress from '../components/Progress';
 import Store from '../Store'
 
 const HomePage = ({toggleLoggedInBar}) => {
     const [passCode,changePassCode]=React.useState("")
     const [classId,setClassId]=React.useState("")
-    const [showAlert, setShowAlert]=React.useState(false)
-    const [alertText,setAlertText]=React.useState("")
     const [showProgress,setProgress]=React.useState(true)
     const history=useHistory()
     const db=getFirestore()
-    const displayAlert= text=>{
-        setAlertText(text)
-        setShowAlert(true)
-    }
     const handleOnSubmitPassCode= async ()=>{
         console.log({db})
         const classCodeDoc= await getDoc(getClassCodeRef())
@@ -38,8 +31,9 @@ const HomePage = ({toggleLoggedInBar}) => {
             toggleLoggedInBar(true)
             setProgress(false)
             Store.classId=newClassId
-            console.log('Store :>> ', Store.classId);
-            history.push("/students")
+            setTerm().then(()=>{console.log('Store :>> ', Store.classId);
+            history.push("/students")})
+
         }
         else{
             alert("Wrong class code")
@@ -47,7 +41,11 @@ const HomePage = ({toggleLoggedInBar}) => {
         }
      
     }
-
+   async  function  setTerm(){
+        const adminDoc=doc(db,Constants.ADMIN_COLLECTION_PATH,Constants.TERM_INFO_DOCUMENT_NAME)
+        const adminSnapShot=await getDoc(adminDoc)
+        Store.term=adminSnapShot.data().term
+    }
   function getClassCodeRef(){
         const docRef=doc(db,Constants.PASSCODE_COLLECTION_PATH,Constants.CLASS_CODE_DOCUMENT_NAME)
         return docRef

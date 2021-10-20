@@ -6,7 +6,7 @@ import ListView from "../components/ListView";
 import { getFirestore, setDoc, doc,collection } from "firebase/firestore";
 import Constants from "../Constants";
 import Store from '../Store'
-
+import { useHistory } from "react-router-dom";
 
 
 const AddStudentPage = () => {
@@ -16,6 +16,7 @@ const AddStudentPage = () => {
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const [selectedName, changeSelectedName] = React.useState("");
+  const history=useHistory()
   const db = getFirestore()
   const attachLatestRoleNumber = () => {
     let rollNumber = 1;
@@ -24,6 +25,9 @@ const AddStudentPage = () => {
     });
     return newArr;
   };
+  const redirectToStudents=()=>{
+    history.push("/students")
+  }
   const onAddButtonClicked = () => {
     const newStudentNames = [...studentNames];
     newStudentNames.push(studentName);
@@ -41,7 +45,10 @@ const AddStudentPage = () => {
     setShowModal(true);
   };
   const onClickSaveStudentNames = async () => {
-    addNamesToClass().then(makeStudentsSubCollection());
+    addNamesToClass().then(()=>{
+      makeStudentsSubCollection().then(redirectToStudents())
+    }
+      );
   };
   const addNamesToClass = async () => {
     const dataToSend = {
@@ -88,7 +95,7 @@ const AddStudentPage = () => {
             placeholder="Enter Student Name"
             className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border  outline-none focus:outline-none focus:ring w-full"
           />
-          <AddButton onClick={onAddButtonClicked} />
+          <AddButton disabled={studentName.length===0?true:false} onClick={onAddButtonClicked} />
         </div>
         <AccentButton
           name="Save Student name"

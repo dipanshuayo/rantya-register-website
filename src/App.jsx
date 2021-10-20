@@ -38,7 +38,7 @@ const App = () => {
                <Route exact path="/students" component={StudentsPages}/>
                <Route exact path="/dates" component={DatesPage}/>
                <Route exact path="/take_attendance" component={TakeAttendancePage}/>
-               <Route exact path="/admin" component={AdminPage}/>
+               {/* <Route exact path="/admin" component={AdminPage}/> */}
                <Route exact path="/add_student" component={AddStudentPage}/>
                 </React.Fragment>
 }
