@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import logo from "../../public/ic_launcher.png";
+import logo from "../ic_launcher.png";
 import LoginModal from "../components/LoginModal";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import Constants from "../Constants";

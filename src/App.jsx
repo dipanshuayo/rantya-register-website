@@ -45,12 +45,12 @@ const App = () => {
                <Route exact path="/dates" component={DatesPage}/>
                <Route exact path="/take_attendance" component={TakeAttendancePage}/>
                <Route exact path="/add_student" render={({history})=><AddStudentPage history={history}/>}/>
-               {/* <Route path="*" render={({history})=><HomePage toggleLoggedInBar={showToolbarAndSetLoggedIn} history={history} />}/> */}
-                </React.Fragment>
+            </React.Fragment>
 }
 {/* <Route path="*" render={({history})=><HomePage toggleLoggedInBar={showToolbarAndSetLoggedIn} history={history} />}/> */}
 </Switch>
-<Route path="*" render={({history})=><HomePage toggleLoggedInBar={showToolbarAndSetLoggedIn} history={history} />}/>
+<Redirect from="*" to="/"/>
+{/* <Route path="*" render={({history})=><HomePage toggleLoggedInBar={showToolbarAndSetLoggedIn} history={history} />}/> */}
     </div>
      );
 }
