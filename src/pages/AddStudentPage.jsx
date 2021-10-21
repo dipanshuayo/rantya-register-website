@@ -9,14 +9,15 @@ import Store from '../Store'
 import { useHistory } from "react-router-dom";
 
 
-const AddStudentPage = () => {
+const AddStudentPage = ({history}) => {
   const [studentName, changeStudentName] = React.useState("");
   const [studentNames, changeStudentNames] = React.useState([]);
   const [showModal, setShowModal] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const [selectedName, changeSelectedName] = React.useState("");
-  const history=useHistory()
+ // const history=useHistory()
+ console.log({history})
   const db = getFirestore()
   const attachLatestRoleNumber = () => {
     let rollNumber = 1;
@@ -100,6 +101,7 @@ const AddStudentPage = () => {
         <AccentButton
           name="Save Student name"
           onClick={onClickSaveStudentNames}
+          disabled={studentNames.length===0?true:false}
         />
         <ListView values={studentNames} onItemClicked={onItemClicked} />
         {showModal && (

@@ -22,14 +22,15 @@ initializeApp(
 const App = () => {
     const [showToolbar,toggleShowToolbar]=React.useState(false)
     const [loggedIn,toggleLoggedIn]=React.useState(true)
-    const showToolbarAndSetLoggedIn=(loggedInValue)=>{
+    const [classId,setClassId]=React.useState("")
+    const showToolbarAndSetLoggedIn=(loggedInValue,newClassId)=>{
         toggleShowToolbar(true)
         toggleLoggedIn(loggedInValue)
-
+        setClassId(newClassId)
     }
     return (
        <div className="colorPrimary">
-           {showToolbar && <Toolbar/>}
+           {showToolbar && <Toolbar classId={classId}/>}
           
            <Switch>
                <Route exact path="/" component={()=><HomePage toggleLoggedInBar={showToolbarAndSetLoggedIn} />}/>

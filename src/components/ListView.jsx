@@ -6,7 +6,7 @@ const ListView = ({values,onItemClicked,onLongPress}) => {
         {
             values.map(value=>{
                 return(
-                    <ListItem value={value} onItemClicked={onItemClicked} onLongPress={onLongPress}/>
+                    <ListItem key={value} value={value} onItemClicked={onItemClicked} onLongPress={onLongPress}/>
                 )
             })
         }

@@ -1,22 +1,16 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import logo from '../../public/ic_launcher.png'
+import logo from '../../public/ic_launcher.png';
 import LoginModal from '../components/LoginModal';
 import {getFirestore,doc,getDoc} from "firebase/firestore"
 import Constants from "../Constants"
-import Progress from '../components/Progress';
 import Store from '../Store'
 
-const HomePage = ({toggleLoggedInBar}) => {
+const HomePage = ({toggleLoggedInBar,history}) => {
     const [passCode,changePassCode]=React.useState("")
     const [classId,setClassId]=React.useState("")
-    const [showProgress,setProgress]=React.useState(true)
-    const history=useHistory()
     const db=getFirestore()
     const handleOnSubmitPassCode= async ()=>{
-        console.log({db})
         const classCodeDoc= await getDoc(getClassCodeRef())
-        setProgress(true)
         console.log('passCode :>> ', passCode);
         console.log('classCodeDoc :>> ', classCodeDoc);
         console.log('classCodeDoc.data :>> ', classCodeDoc.data());
@@ -28,8 +22,7 @@ const HomePage = ({toggleLoggedInBar}) => {
             console.log("passcode class id",classCodeDoc.data()[passCode])
             console.log('classId :>> ', classId);
             console.log("submitted")
-            toggleLoggedInBar(true)
-            setProgress(false)
+            toggleLoggedInBar(true,newClassId)
             Store.classId=newClassId
             setTerm().then(()=>{console.log('Store :>> ', Store.classId);
             history.push("/students")})
@@ -37,7 +30,6 @@ const HomePage = ({toggleLoggedInBar}) => {
         }
         else{
             alert("Wrong class code")
-            setProgress(false)
         }
      
     }
@@ -74,7 +66,6 @@ const HomePage = ({toggleLoggedInBar}) => {
         <h2 className=" font-semibold textColorAccent centerHorizontal">
             No Bad Vides.
         </h2>
-        <Progress showProgress={showProgress}/>
     </div>);
 }
  

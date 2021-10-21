@@ -38,9 +38,7 @@ const LoginModal = ({className,value,valueChangedHandler,onSubmit}) => {
                   </div>
                   {/*body*/}
                   <div className="relative p-6 flex-auto">
-                    <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
                       <PassCodeInput value={value} valueChangedHandler={valueChangedHandler} icon={ShowPasswordIcon} iconAsButton/>
-                    </p>
                   </div>
                   {/*footer*/}
                   <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
