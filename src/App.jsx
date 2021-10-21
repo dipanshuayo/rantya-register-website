@@ -5,7 +5,6 @@ import HomePage from './pages/HomePage';
 import StudentsPages from './pages/StudentsPage';
 import DatesPage from './pages/DatesPage';
 import TakeAttendancePage from './pages/TakeAttendancePage';
-import AdminPage from './pages/AdminPage';
 import {initializeApp} from "firebase/app"
 import AddStudentPage from './pages/AddStudentPage';
 initializeApp(
@@ -33,7 +32,7 @@ const App = () => {
            {showToolbar && <Toolbar classId={classId}/>}
           
            <Switch>
-               <Route exact path="/" component={()=><HomePage toggleLoggedInBar={showToolbarAndSetLoggedIn} />}/>
+               <Route exact path="/" render={({history})=><HomePage toggleLoggedInBar={showToolbarAndSetLoggedIn} history={history} />}/>
                { loggedIn && 
                <React.Fragment>
                <Route exact path="/students" component={StudentsPages}/>
