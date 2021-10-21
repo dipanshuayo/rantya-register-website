@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "../../public/ic_launcher.png";
 import LoginModal from "../components/LoginModal";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
@@ -9,6 +9,9 @@ const HomePage = ({ toggleLoggedInBar ,history}) => {
   const [passCode, changePassCode] = React.useState("");
   const [classId, setClassId] = React.useState("");
   const db = getFirestore();
+  useEffect(()=>{
+    history.push("/")
+  },[])
   const handleOnSubmitPassCode = async () => {
     const classCodeDoc = await getDoc(getClassCodeRef());
     console.log("passCode :>> ", passCode);
