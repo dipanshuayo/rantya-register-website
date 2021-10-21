@@ -35,11 +35,11 @@ const App = () => {
                <Route exact path="/" render={({history})=><HomePage toggleLoggedInBar={showToolbarAndSetLoggedIn} history={history} />}/>
                { loggedIn && 
                <React.Fragment>
-               <Route exact path="/students" component={StudentsPages}/>
+               <Route exact path="/students" render={({history})=><StudentsPages history={history}/>}/>
                <Route exact path="/dates" component={DatesPage}/>
                <Route exact path="/take_attendance" component={TakeAttendancePage}/>
                {/* <Route exact path="/admin" component={AdminPage}/> */}
-               <Route exact path="/add_student" component={AddStudentPage}/>
+               <Route exact path="/add_student" render={({history})=><AddStudentPage history={history}/>}/>
                 </React.Fragment>
 }
            </Switch>

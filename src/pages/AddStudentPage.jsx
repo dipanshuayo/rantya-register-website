@@ -6,9 +6,6 @@ import ListView from "../components/ListView";
 import { getFirestore, setDoc, doc,collection } from "firebase/firestore";
 import Constants from "../Constants";
 import Store from '../Store'
-import { useHistory } from "react-router-dom";
-
-
 const AddStudentPage = ({history}) => {
   const [studentName, changeStudentName] = React.useState("");
   const [studentNames, changeStudentNames] = React.useState([]);
@@ -16,8 +13,6 @@ const AddStudentPage = ({history}) => {
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const [selectedName, changeSelectedName] = React.useState("");
- // const history=useHistory()
- console.log({history})
   const db = getFirestore()
   const attachLatestRoleNumber = () => {
     let rollNumber = 1;
