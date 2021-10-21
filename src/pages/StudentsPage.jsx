@@ -17,8 +17,7 @@ import Store from "../Store";
 import ActionModal from "../components/ActionModal";
 import AddModal from "../components/AddModal";
 import Alert from "../components/Alert";
-import { useHistory } from "react-router-dom";
-const StudentsPages = () => {
+const StudentsPages = ({ history }) => {
   const [studentNames, changeStudentNames] = React.useState([]);
   const [showModal, setShowModal] = React.useState(false);
   const [showActionModal, setShowActionModal] = React.useState(false);
@@ -26,41 +25,37 @@ const StudentsPages = () => {
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const [selectedName, setSelectedName] = React.useState("");
-  const [showAlert, setShowAlert]=React.useState("")
-  const [alertText,setAlertText]=React.useState("")
-  const history=useHistory()
+  const [showAlert, setShowAlert] = React.useState("");
+  const [alertText, setAlertText] = React.useState("");
   const db = getFirestore();
   const classDocRef = doc(db, Constants.CLASSES_COLLECTION_PATH, Store.classId);
   const getStudentNames = async () => {
     const snapShot = await getDoc(classDocRef);
     const classNames = snapShot.data().names;
-    changeStudentNames(classNames)
-    
+    changeStudentNames(classNames);
   };
   useEffect(() => {
-    getStudentNames()
-    // redirectToAddStudents()
-    
+    getStudentNames();
   }, []);
-  useEffect(()=>{
-    redirectToAddStudents()
-  },[studentNames])
+  useEffect(() => {
+    redirectToAddStudents();
+  }, [studentNames]);
   useEffect(() => {
     if (!showActionModal) {
       setTitle("");
       setBody("");
     }
   }, [showActionModal]);
-  const redirectToAddStudents=()=>{
-    if(studentNames===undefined){
-      console.log("lkdjfslj")
-      history.push("/add_student")
+  const redirectToAddStudents = () => {
+    if (studentNames === undefined) {
+      console.log("lkdjfslj");
+      history.push("/add_student");
     }
-  }
-  const makeAlert=(text)=>{
-    setAlertText(text)
-    setShowAlert(true)
-  }
+  };
+  const makeAlert = (text) => {
+    setAlertText(text);
+    setShowAlert(true);
+  };
   const getStudentAttendanceHistory = async (name) => {
     const studentRef = doc(
       db,
@@ -150,7 +145,7 @@ const StudentsPages = () => {
     addStudentToArray(nameToBeSent).then(() => {
       addStudentToSubCollection(nameToBeSent);
       setShowAddModal(false);
-      makeAlert("Student added")
+      makeAlert("Student added");
     });
   };
   const removeNameFromArray = () => {
@@ -165,14 +160,18 @@ const StudentsPages = () => {
       deletStudentSubCollection().then(() => {
         removeNameFromArray();
         setShowActionModal(false);
-        makeAlert("Student deleted")
+        makeAlert("Student deleted");
       })
     );
   };
 
   return (
     <div className="studentsPage colorPrimary">
-      <Alert showAlert={showAlert} setShowAlert={setShowAlert} text={alertText} />
+      <Alert
+        showAlert={showAlert}
+        setShowAlert={setShowAlert}
+        text={alertText}
+      />
       {showModal && (
         <InfoModal
           title={title}
@@ -198,18 +197,18 @@ const StudentsPages = () => {
           addStudents={addStudent}
         />
       )}
-      
       <span>
         <AddButton onClick={onAddButtonClick} />
       </span>
-      {studentNames &&
-      <ListView
-        values={studentNames}
-        onItemClicked={onItemClicked}
-        onLongPress={onLongPress}
-      />
-
-            }      </div>
+      <h3 className="text-center font-bold">Long press on a student name to delete it</h3>
+      {studentNames && (
+        <ListView
+          values={studentNames}
+          onItemClicked={onItemClicked}
+          onLongPress={onLongPress}
+        />
+      )}{" "}
+    </div>
   );
 };
 
