@@ -3,17 +3,17 @@ import AccentButton from "../components/AccentButton";
 import ActionModal from "../components/ActionModal";
 import AddButton from "../components/AddButton";
 import ListView from "../components/ListView";
-import { getFirestore, setDoc, doc,collection } from "firebase/firestore";
+import { getFirestore, setDoc, doc, collection } from "firebase/firestore";
 import Constants from "../Constants";
-import Store from '../Store'
-const AddStudentPage = ({history}) => {
+import Store from "../Store";
+const AddStudentPage = ({ history }) => {
   const [studentName, changeStudentName] = React.useState("");
   const [studentNames, changeStudentNames] = React.useState([]);
   const [showModal, setShowModal] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const [selectedName, changeSelectedName] = React.useState("");
-  const db = getFirestore()
+  const db = getFirestore();
   const attachLatestRoleNumber = () => {
     let rollNumber = 1;
     const newArr = studentNames.map((name) => {
@@ -21,9 +21,9 @@ const AddStudentPage = ({history}) => {
     });
     return newArr;
   };
-  const redirectToStudents=()=>{
-    history.push("/students")
-  }
+  const redirectToStudents = () => {
+    history.push("/students");
+  };
   const onAddButtonClicked = () => {
     const newStudentNames = [...studentNames];
     newStudentNames.push(studentName);
@@ -41,21 +41,20 @@ const AddStudentPage = ({history}) => {
     setShowModal(true);
   };
   const onClickSaveStudentNames = async () => {
-    addNamesToClass().then(()=>{
-      makeStudentsSubCollection().then(redirectToStudents())
-    }
-      );
+    addNamesToClass().then(() => {
+      makeStudentsSubCollection().then(redirectToStudents());
+    });
   };
   const addNamesToClass = async () => {
     const dataToSend = {
       names: attachLatestRoleNumber(),
     };
-    
-    const promise=await setDoc(
-        doc(db,`${Constants.CLASSES_COLLECTION_PATH}/${Store.classId}`),
-        dataToSend
-      );
-    return  promise
+
+    const promise = await setDoc(
+      doc(db, `${Constants.CLASSES_COLLECTION_PATH}/${Store.classId}`),
+      dataToSend
+    );
+    return promise;
   };
   const makeStudentsSubCollection = async () => {
     const dataToBeSent = {};
@@ -63,12 +62,15 @@ const AddStudentPage = ({history}) => {
       dates_present: [],
       dates_absent: [],
     };
-    const studentsCollectionRef = collection(db,`${Constants.CLASSES_COLLECTION_PATH}/${Store.classId}/${Constants.STUDENTS_COLLECTION_PATH}`)
-    attachLatestRoleNumber().forEach(async (id) =>  {
-      await setDoc(doc(db,studentsCollectionRef.path,id), dataToBeSent);
+    const studentsCollectionRef = collection(
+      db,
+      `${Constants.CLASSES_COLLECTION_PATH}/${Store.classId}/${Constants.STUDENTS_COLLECTION_PATH}`
+    );
+    attachLatestRoleNumber().forEach(async (id) => {
+      await setDoc(doc(db, studentsCollectionRef.path, id), dataToBeSent);
     });
   };
- 
+
   const onRemoveStudentName = () => {
     changeStudentNames(
       [...studentNames].filter((name) => name !== selectedName)
@@ -91,12 +93,15 @@ const AddStudentPage = ({history}) => {
             placeholder="Enter Student Name"
             className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white rounded text-sm border  outline-none focus:outline-none focus:ring w-full"
           />
-          <AddButton disabled={studentName.length===0?true:false} onClick={onAddButtonClicked} />
+          <AddButton
+            disabled={studentName.length === 0 ? true : false}
+            onClick={onAddButtonClicked}
+          />
         </div>
         <AccentButton
           name="Save Student name"
           onClick={onClickSaveStudentNames}
-          disabled={studentNames.length===0?true:false}
+          disabled={studentNames.length === 0 ? true : false}
         />
         <ListView values={studentNames} onItemClicked={onItemClicked} />
         {showModal && (
