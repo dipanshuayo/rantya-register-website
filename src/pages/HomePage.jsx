@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import logo from "../ic_launcher.png";
+// import logo from "/assets/ic_launcher.png";
 import LoginModal from "../components/LoginModal";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import Constants from "../Constants";
@@ -64,10 +64,10 @@ const HomePage = ({ toggleLoggedInBar ,history}) => {
   return (
     <div className="homePage colorPrimary">
       <img
-        src={logo}
-        width="192px"
-        height="192px"
-        className="centerHorizontal"
+      src="./dist/assets/ic_launcher.png"
+      width="auto"
+      height="auto"
+      className="centerHorizontal"
       />
       <LoginModal
         className="centerHorizontal flex mt-16"

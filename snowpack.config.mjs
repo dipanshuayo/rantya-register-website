@@ -8,7 +8,7 @@ export default {
    '@snowpack/plugin-react-refresh',
    '@snowpack/plugin-dotenv',
    '@snowpack/plugin-postcss',
-   '@snowpack/plugin-webpack'
+  '@snowpack/plugin-webpack'
   ],
   routes: [
     /* Enable an SPA Fallback in development: */
@@ -16,7 +16,8 @@ export default {
   ],
   optimize: {
     bundle:true,
-    minify:true
+    minify:true,
+    target: 'es2018',
   },
   packageOptions: {
     /* ... */
