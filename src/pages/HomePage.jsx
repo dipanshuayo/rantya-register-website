@@ -80,7 +80,7 @@ const HomePage = ({ toggleLoggedInBar ,history}) => {
         A PROJECT BY SET 2K21 FOR TEACHERS OF RANTYA HIGH SCHOOL.
       </h2>
       <h2 className=" font-semibold textColorAccent centerHorizontal">
-        No Bad Vides.
+        No Bad Vibes.
       </h2>
     </div>
   );
